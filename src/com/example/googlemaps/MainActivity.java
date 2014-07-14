@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -29,8 +31,8 @@ public class MainActivity extends FragmentActivity {
         }
         
      // latitude and longitude
-        double latitude = 0;
-        double longitude = 0;
+        double latitude = -15.7989;
+        double longitude = -47.8667;
          
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Hello Maps ");
@@ -38,6 +40,11 @@ public class MainActivity extends FragmentActivity {
         // adding marker
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         googleMap.addMarker(marker);
+        
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                new LatLng(-15.7989, -47.8667)).zoom(12).build();
+ 
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         
     }
  
