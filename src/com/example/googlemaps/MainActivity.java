@@ -30,6 +30,8 @@ public class MainActivity extends FragmentActivity {
             e.printStackTrace();
         }
         
+        googleMap.setMyLocationEnabled(true);
+        
      // latitude and longitude
         double latitude = -15.7989;
         double longitude = -47.8667;
