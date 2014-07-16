@@ -32,21 +32,27 @@ public class MainActivity extends FragmentActivity {
         
         googleMap.setMyLocationEnabled(true);
         
+        GPSTracker gps = new GPSTracker(this);
+        
      // latitude and longitude
-        double latitude = -15.7989;
-        double longitude = -47.8667;
+        //double latitude = -15.7989;
+        double latitude = gps.getLatitude();
+        double longitude = gps.getLongitude();
          
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Hello Maps ");
          
         // adding marker
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        //marker.icon(BitmapDescriptorFactory.fromFile("~/Arquivos/UNB/JogoUbiquo/GoogleMaps/res/drawable-hdpi/iclauncher.png"));
         googleMap.addMarker(marker);
         
         CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                new LatLng(-15.7989, -47.8667)).zoom(12).build();
+                new LatLng(latitude, longitude)).zoom(12).build();
  
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        
+        googleMap.getUiSettings().setCompassEnabled(false);
         
     }
  

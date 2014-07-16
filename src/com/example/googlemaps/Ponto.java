@@ -1,24 +1,31 @@
 package com.example.googlemaps;
 
 public class Ponto {
-	private float coordX, coordY;
+	private double coordX, coordY;
 	
-	//deixei a cor como valores RGB enquanto nao sei usar a cor da engine
+	//string do tipo #123456
 	private String rgb;
 	
+	//construtor de ponto
+	Ponto (double x, double y, String rgb){
+		this.coordX = x;
+		this.coordY = y;
+		this.rgb = rgb;
+	}
+	
 	//get e set da coordX
-	public float getCoordX() {
+	public double getCoordX() {
 		return coordX;
 	}
-	public void setCoordX(float x) {
+	public void setCoordX(double x) {
 		coordX = x;
 	}
 	
 	//get e set da coordY
-	public float getCoordY() {
+	public double getCoordY() {
 		return coordY;
 	}
-	public void setCoordY(float y) {
+	public void setCoordY(double y) {
 		coordY = y;
 	}
 	
