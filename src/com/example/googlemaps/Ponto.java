@@ -3,15 +3,11 @@ package com.example.googlemaps;
 public class Ponto {
 	private double latitude, longitude;
 	
-	//int do tipo 0xff223344
-	//ff é a transparencia. 22 red, 33 green, 44 blue
-	private int rgb;
 	
 	//construtor de ponto
-	Ponto (double y, double x, int rgb){
+	Ponto (double y, double x){
 		this.latitude = y;
 		this.longitude = x;
-		this.rgb = rgb;
 	}
 	
 	//get e set da latitude
@@ -30,13 +26,13 @@ public class Ponto {
 		longitude = x;
 	}
 	
-	//get e set das cores RGB
-	public int getRGB(){
-		return rgb;
-	}
-	public void setRGB(int rgb){
-		this.rgb = rgb;
-	}
 	
+	public double distancia (Ponto p2) {
+		Ponto p1 = this;
+		return Math.sqrt(
+            (p1.getLatitude() - p2.getLatitude()) *  (p1.getLatitude() - p2.getLatitude()) + 
+            (p1.getLongitude() - p2.getLongitude()) *  (p1.getLongitude() - p2.getLongitude())
+        );	
+	}	
 	
 }

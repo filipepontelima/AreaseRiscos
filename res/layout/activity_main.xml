@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
  
@@ -7,15 +8,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
- 	
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/planetaterra"
-        android:clickable="true"
-		android:onClick="mudaimagem" />
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/button1"
