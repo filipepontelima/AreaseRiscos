@@ -10,6 +10,7 @@ public class Jogador {
 	//ff é a transparencia. 22 red, 33 green, 44 blue
 	private int cor;
 	private double pontuacao;
+	private int quantPontos;
 	private List<Ponto> listaPontos = new ArrayList<Ponto>();
 	
 	
@@ -18,6 +19,7 @@ public class Jogador {
 		this.nome = nome;
 		this.cor = cor;
 		pontuacao = 0;
+		quantPontos = 0;
 	}
 	
 	public void setNome (String nome) {
@@ -54,8 +56,22 @@ public class Jogador {
 		}
 		
 		listaPontos.add(ponto);
+		quantPontos ++;
 	}
 	public List<Ponto> getListaPontos () {
 		return listaPontos;
+	}
+	
+	public void setQuantPontos (int n) {
+		quantPontos = n;
+	}
+	public void incrementaQuantPontos () {
+		quantPontos ++;
+	}
+	public void decrementaQuantPontos () {
+		quantPontos --;
+	}
+	public int getQuantPontos () {
+		return quantPontos;
 	}
 }

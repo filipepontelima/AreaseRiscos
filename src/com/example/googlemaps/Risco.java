@@ -45,7 +45,7 @@ public class Risco {
 		this.forca = forca;
 	}
 	
-	
+	/*
 	public int checarInterseccao(Risco risco){	
 		if(determinante(risco) == 0.0) {
 			return 0; //nao ha interseccao
@@ -72,6 +72,6 @@ public class Risco {
 
 		det = (xFim2 - xIni2)*(yFim1 - yIni1) - (yFim2 - yIni2)*(xFim1 - xIni1);
 		return det;
-	}
+	}*/
 
 }

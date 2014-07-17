@@ -26,6 +26,11 @@ public class Ponto {
 		longitude = x;
 	}
 	
+	public void setLatLng(double lat, double lng) {
+		latitude = lat;
+		longitude = lng;
+	}
+	
 	
 	public double distancia (Ponto p2) {
 		Ponto p1 = this;

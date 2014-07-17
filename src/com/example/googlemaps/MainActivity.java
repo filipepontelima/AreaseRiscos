@@ -2,7 +2,6 @@ package com.example.googlemaps;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.drawable.Drawable;
@@ -32,9 +31,8 @@ public class MainActivity extends FragmentActivity {
 	// Button button;
 	ImageView image;
 
-	// Lista de pontos
-	List<Ponto> listaPontos = new ArrayList<Ponto>();
-	Jogador jogador;
+	// Jogadores
+	Jogador jogador, jogador2;
 
 	private RelativeLayout telainicial;
 	private RelativeLayout telamapa;
@@ -50,6 +48,19 @@ public class MainActivity extends FragmentActivity {
 				null);
 		
 		jogador = new Jogador ("Filipe", 0xfffaa648);
+		jogador2 = new Jogador ("David", 0xff53b7d3);
+			Ponto ponto = new Ponto(-15.75, -47.88);
+			jogador2.adicionaPonto(ponto);
+			ponto = new Ponto(-15.75, -47.88);
+			ponto.setLatLng(-15.77, -47.885);
+			jogador2.adicionaPonto(ponto);
+			ponto = new Ponto(-15.75, -47.88);
+			ponto.setLatLng(-15.762, -47.871);
+			jogador2.adicionaPonto(ponto);
+			ponto = new Ponto(-15.75, -47.88);
+			ponto.setLatLng(-15.75, -47.888);
+			jogador2.adicionaPonto(ponto);
+			
 		// setContentView(R.layout.tela_inicial);
 		// setContentView(R.layout.activity_main);
 		loadAsset();
@@ -76,20 +87,22 @@ public class MainActivity extends FragmentActivity {
 		double longitude = gps.getLongitude();
 
 		// create marker
-		MarkerOptions marker = new MarkerOptions().position(
+		/*MarkerOptions marker = new MarkerOptions().position(
 				new LatLng(latitude, longitude)).title("Hello Maps ");
 
 		// adding marker
 		marker.icon(BitmapDescriptorFactory
 				.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
-		googleMap.addMarker(marker);
+		googleMap.addMarker(marker);*/
 
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 				.target(new LatLng(latitude, longitude)).zoom(14).build();
 
 		googleMap.animateCamera(CameraUpdateFactory
 				.newCameraPosition(cameraPosition));
+		
+		mostraRiscos(jogador2);
 	}
 
 	public void loadAsset() {
@@ -167,13 +180,94 @@ public class MainActivity extends FragmentActivity {
 		
 		jogador.adicionaPonto(ponto);
 		
-		listaPontos.add(ponto);
+		if (jogador.getQuantPontos()>1) {
+			checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
+		}
+		
+		googleMap.clear();
 
-		Toast.makeText(this, "Novo ponto criado com sucesso!",
-				Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "Novo ponto criado! Sua pontuacao:" + jogador.getPontuacao(),Toast.LENGTH_SHORT).show();
 
+		mostraRiscos(jogador2);
 		mostraRiscos(jogador);
 	}
+	
+	public void checaColisoes (Ponto novo1, Ponto novo2) {
+		double distancia = novo1.distancia(novo2);
+		double distvelho;
+		//TODO acessar servidor, coletar lista de jogadores, para cada jogador checar interseccao de cada reta
+		if (jogador2.getQuantPontos()>1) {
+			int i = 0;
+			List<Ponto> listaPontos = jogador2.getListaPontos();
+			for (i=0;i<jogador2.getQuantPontos()-1;i++) {
+				if (checarInterseccao(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
+					distvelho = listaPontos.get(i).distancia(listaPontos.get(i+1));
+					if (distancia < distvelho) {
+						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
+						//destroi(jogador2, listaPontos.get(i+1));
+					}
+					else {
+						Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
+						//destroi(jogador, novo2);
+					}
+				}
+			}
+		}
+	}
+	
+	
+	public boolean checarInterseccao(Ponto novo1, Ponto novo2, Ponto velho1, Ponto velho2){	
+		/*if(determinante(novo1, novo2, velho1, velho2) == 0.0) {
+			return false; //nao ha interseccao
+		}
+		return true; //ha interseccao*/
+		return false;
+		/*Line2D line1 = new Line2D.Float(100, 100, 200, 200);
+		return linesIntersect(
+				novo1.getLongitude(),
+				novo1.getLatitude(),
+				novo2.getLongitude(),
+				novo2.getLatitude(),
+				velho1.getLongitude(),
+				velho1.getLatitude(),
+				velho2.getLongitude(),
+				velho2.getLatitude());*/
+	}
+	
+	
+	public double determinante(Ponto novo1, Ponto novo2, Ponto velho1, Ponto velho2){
+		//determinante
+		double det;
+
+		//x's e y's da reta 1 (atual)
+		double xIni1 = novo1.getLongitude();
+		double xFim1 = novo2.getLongitude();
+		double yIni1 = novo1.getLatitude();
+		double yFim1 = novo2.getLatitude();
+
+		//x's e y's da reta 2 (a ser comparada)
+		double xIni2 = velho1.getLongitude();
+		double xFim2 = velho2.getLongitude();	
+		double yIni2 = velho1.getLatitude();
+		double yFim2 = velho2.getLatitude();	
+
+		det = (xFim2 - xIni2)*(yFim1 - yIni1) - (yFim2 - yIni2)*(xFim1 - xIni1);
+		return det;
+	}
+	
+	public void destroi(Jogador jogador, Ponto ponto) {
+		List<Ponto> listaPontos = jogador.getListaPontos();
+		
+		if (listaPontos.indexOf(ponto) == jogador.getQuantPontos()-1) {
+			listaPontos.remove(ponto);
+			return;
+		}
+		if (listaPontos.indexOf(ponto) == 1) {
+			listaPontos.remove(0);
+			return;
+		}
+	}
+	
 
 	/**
 	 * function to load map. If map is not created it will create it for you
