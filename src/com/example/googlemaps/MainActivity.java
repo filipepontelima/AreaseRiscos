@@ -1,5 +1,8 @@
 package com.example.googlemaps;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -24,6 +27,9 @@ public class MainActivity extends FragmentActivity {
     
     //Button button;
 	ImageView image;
+	
+	//Lista de pontos
+	List<Ponto> listaPontos = new ArrayList<Ponto>();
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +68,22 @@ public class MainActivity extends FragmentActivity {
  
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         
-        PolylineOptions rectOptions = new PolylineOptions();
+        
+        
+        
+        
+        
+        
+        
+        
+        /*PolylineOptions rectOptions = new PolylineOptions();
         rectOptions.add(new LatLng(latitude - 0.005, longitude - 0.005));
         rectOptions.add(new LatLng(latitude - 0.008, longitude - 0.008));
-        rectOptions.add(new LatLng(latitude - 0.002, longitude - 0.008));
-        rectOptions.add(new LatLng(latitude - 0.002, longitude - 0.002));
+        //rectOptions.add(new LatLng(latitude - 0.002, longitude - 0.008));
+        //rectOptions.add(new LatLng(latitude - 0.002, longitude - 0.002));
         rectOptions.color(0xff77a858);
         rectOptions.width(5);
-        googleMap.addPolyline(rectOptions);
+        googleMap.addPolyline(rectOptions);*/
         
     }
     
@@ -81,25 +95,47 @@ public class MainActivity extends FragmentActivity {
 		Toast.makeText(this, "You clicked me!", Toast.LENGTH_SHORT).show();
 	}
     
+    public void mostraPonto (Ponto ponto) {
+    	
+    	CircleOptions viewPonto = new CircleOptions ();
+    	viewPonto.center (new LatLng(ponto.getLatitude(),ponto.getLongitude()));
+    	viewPonto.radius (30);
+    	viewPonto.fillColor(0x00000000);
+    	viewPonto.strokeColor(ponto.getRGB());
+    	viewPonto.strokeWidth(4);
+        googleMap.addCircle (viewPonto);
+    }
+    
+    public void mostraRiscos (List<Ponto> listaPontos) {
+    	
+    	if (listaPontos.isEmpty()) {
+    		return;
+    	}
+    	PolylineOptions viewRiscos = new PolylineOptions();
+    	
+    	for(Ponto ponto : listaPontos){
+    		viewRiscos.add(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
+    		mostraPonto (ponto);
+		}
+    	
+    	viewRiscos.color(listaPontos.get(0).getRGB());
+    	viewRiscos.width(5);
+    	googleMap.addPolyline(viewRiscos);
+    }
     
     public void novoPonto (View view) {
     	GPSTracker gps = new GPSTracker(this);
         
-    	double latitude = gps.getLatitude()-0.002;
-        double longitude = gps.getLongitude()-0.002;
+    	double latitude = gps.getLatitude();
+        double longitude = gps.getLongitude();
     	
-    	Ponto ponto = new Ponto (latitude,longitude,"#000000");
+    	Ponto ponto = new Ponto (latitude,longitude,0xfffaa648);
     	
-    	CircleOptions circleOptions = new CircleOptions ();
-        circleOptions.center (new LatLng(ponto.getCoordX(),ponto.getCoordY()));
-        circleOptions.radius (30);
-        circleOptions.fillColor(0x00000000);
-        circleOptions.strokeColor(0xff77a858);
-        circleOptions.strokeWidth(4);
-        googleMap.addCircle (circleOptions);
+    	listaPontos.add(ponto);
     	
     	Toast.makeText(this, "Novo ponto criado com sucesso!", Toast.LENGTH_SHORT).show();
     	
+    	mostraRiscos (listaPontos);
     }
  
     /**

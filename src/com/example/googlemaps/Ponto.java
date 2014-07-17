@@ -1,39 +1,40 @@
 package com.example.googlemaps;
 
 public class Ponto {
-	private double coordX, coordY;
+	private double latitude, longitude;
 	
-	//string do tipo #123456
-	private String rgb;
+	//int do tipo 0xff223344
+	//ff é a transparencia. 22 red, 33 green, 44 blue
+	private int rgb;
 	
 	//construtor de ponto
-	Ponto (double x, double y, String rgb){
-		this.coordX = x;
-		this.coordY = y;
+	Ponto (double y, double x, int rgb){
+		this.latitude = y;
+		this.longitude = x;
 		this.rgb = rgb;
 	}
 	
-	//get e set da coordX
-	public double getCoordX() {
-		return coordX;
+	//get e set da latitude
+	public double getLatitude() {
+		return latitude;
 	}
-	public void setCoordX(double x) {
-		coordX = x;
+	public void setLatitude(double y) {
+		latitude = y;
 	}
 	
-	//get e set da coordY
-	public double getCoordY() {
-		return coordY;
+	//get e set da longitude
+	public double getLongitude() {
+		return longitude;
 	}
-	public void setCoordY(double y) {
-		coordY = y;
+	public void setLongitude(double x) {
+		longitude = x;
 	}
 	
 	//get e set das cores RGB
-	public String getRGB(){
+	public int getRGB(){
 		return rgb;
 	}
-	public void setRGB(String rgb){
+	public void setRGB(int rgb){
 		this.rgb = rgb;
 	}
 	

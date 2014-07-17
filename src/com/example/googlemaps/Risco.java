@@ -59,16 +59,16 @@ public class Risco {
 		double det;
 
 		//x's e y's da reta 1 (atual)
-		double xIni1 = pontoInicial.getCoordX();
-		double xFim1 = pontoFinal.getCoordX();
-		double yIni1 = pontoInicial.getCoordY();
-		double yFim1 = pontoFinal.getCoordY();
+		double xIni1 = pontoInicial.getLatitude();
+		double xFim1 = pontoFinal.getLatitude();
+		double yIni1 = pontoInicial.getLongitude();
+		double yFim1 = pontoFinal.getLongitude();
 
 		//x's e y's da reta 2 (a ser comparada)
-		double xIni2 = risco.getPontoInicial().getCoordX();
-		double xFim2 = risco.getPontoFinal().getCoordX();	
-		double yIni2 = risco.getPontoInicial().getCoordY();
-		double yFim2 = risco.getPontoFinal().getCoordY();	
+		double xIni2 = risco.getPontoInicial().getLatitude();
+		double xFim2 = risco.getPontoFinal().getLatitude();	
+		double yIni2 = risco.getPontoInicial().getLongitude();
+		double yFim2 = risco.getPontoFinal().getLongitude();	
 
 		det = (xFim2 - xIni2)*(yFim1 - yIni1) - (yFim2 - yIni2)*(xFim1 - xIni1);
 		return det;
