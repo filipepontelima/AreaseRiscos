@@ -60,6 +60,10 @@ public class MainActivity extends FragmentActivity {
 			ponto = new Ponto(-15.75, -47.88);
 			ponto.setLatLng(-15.75, -47.888);
 			jogador2.adicionaPonto(ponto);
+			Area area = new Area (-15.754, -47.883);
+			jogador2.adicionaArea(area);
+			area = new Area (-15.76, -47.877);
+			jogador2.adicionaArea(area);
 			
 		// setContentView(R.layout.tela_inicial);
 		// setContentView(R.layout.activity_main);
@@ -103,6 +107,7 @@ public class MainActivity extends FragmentActivity {
 				.newCameraPosition(cameraPosition));
 		
 		mostraRiscos(jogador2);
+		mostraAreas (jogador2);
 	}
 
 	public void loadAsset() {
@@ -140,6 +145,31 @@ public class MainActivity extends FragmentActivity {
 	 * 
 	 * Toast.makeText(this, "You clicked me!", Toast.LENGTH_SHORT).show(); }
 	 */
+	
+	public void mostraArea (Area area, int cor) {
+		
+		CircleOptions viewArea = new CircleOptions();
+		viewArea.center(new LatLng(area.getLatitude(), area.getLongitude()));
+		viewArea.radius(area.getRaio());
+		viewArea.fillColor(cor);
+		viewArea.strokeWidth(0);
+		googleMap.addCircle(viewArea);
+	}
+	
+	public void mostraAreas (Jogador jogador) {
+		int cor = jogador.getCor();
+		
+		cor = cor - 0x66000000;
+		List<Area> listaAreas = jogador.getListaAreas();
+		if (listaAreas.isEmpty()) {
+			return;
+		}
+		
+		for (Area area : listaAreas) {
+			mostraArea(area, cor);
+		}
+		
+	}
 
 	public void mostraPonto(Ponto ponto, int cor) {
 
@@ -162,12 +192,33 @@ public class MainActivity extends FragmentActivity {
 
 		for (Ponto ponto : listaPontos) {
 			viewRiscos.add(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
-			mostraPonto(ponto, jogador.getCor());
 		}
 
 		viewRiscos.color(jogador.getCor());
 		viewRiscos.width(5);
 		googleMap.addPolyline(viewRiscos);
+		
+		for (Ponto ponto : listaPontos) {
+			mostraPonto(ponto, jogador.getCor());
+		}
+	}
+	
+	public void novaArea (View view) {
+		GPSTracker gps = new GPSTracker(this);
+
+		double latitude = gps.getLatitude();
+		double longitude = gps.getLongitude();
+		
+		Area area = new Area (latitude, longitude);
+		
+		jogador.adicionaArea(area);
+		
+		googleMap.clear();
+		
+		mostraRiscos(jogador2);
+		mostraAreas(jogador2);
+		mostraRiscos(jogador);
+		mostraAreas(jogador);
 	}
 
 	public void novoPonto(View view) {
@@ -189,7 +240,9 @@ public class MainActivity extends FragmentActivity {
 		//Toast.makeText(this, "Novo ponto criado! Sua pontuacao:" + jogador.getPontuacao(),Toast.LENGTH_SHORT).show();
 
 		mostraRiscos(jogador2);
+		mostraAreas(jogador2);
 		mostraRiscos(jogador);
+		mostraAreas(jogador);
 	}
 	
 	public void checaColisoes (Ponto novo1, Ponto novo2) {

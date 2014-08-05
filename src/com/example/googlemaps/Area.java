@@ -9,7 +9,7 @@ public class Area {
 	Area (double y, double x){
 		this.latitude = y;
 		this.longitude = x;
-		raio = 30;
+		raio = 300;
 	}
 	
 	//get e set da latitude
@@ -33,6 +33,11 @@ public class Area {
 		longitude = lng;
 	}
 	
-	
-
+	//get e set do raio
+	public double getRaio () {
+		return raio;
+	}
+	public void setRaio (double raio) {
+		this.raio = raio;
+	}
 }

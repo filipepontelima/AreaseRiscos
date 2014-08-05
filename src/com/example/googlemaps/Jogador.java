@@ -11,7 +11,9 @@ public class Jogador {
 	private int cor;
 	private double pontuacao;
 	private int quantPontos;
+	private int quantAreas;
 	private List<Ponto> listaPontos = new ArrayList<Ponto>();
+	private List<Area> listaAreas = new ArrayList<Area>();
 	
 	
 	//construtor
@@ -62,6 +64,18 @@ public class Jogador {
 		return listaPontos;
 	}
 	
+	public void setListaAreas (List<Area> listaAreas) {
+		this.listaAreas = listaAreas;
+	} 
+	public void adicionaArea (Area area) {
+				
+		listaAreas.add(area);
+		quantAreas ++;
+	}
+	public List<Area> getListaAreas () {
+		return listaAreas;
+	}
+	
 	public void setQuantPontos (int n) {
 		quantPontos = n;
 	}
@@ -73,5 +87,18 @@ public class Jogador {
 	}
 	public int getQuantPontos () {
 		return quantPontos;
+	}
+	
+	public void setQuantAreas (int n) {
+		quantAreas = n;
+	}
+	public void incrementaQuantAreas () {
+		quantAreas ++;
+	}
+	public void decrementaQuantAreas () {
+		quantAreas --;
+	}
+	public int getQuantAreas () {
+		return quantAreas;
 	}
 }
