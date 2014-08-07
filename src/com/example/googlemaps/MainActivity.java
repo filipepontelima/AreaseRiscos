@@ -74,6 +74,9 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void inicializaMapa(View view) {
+		
+		//loadAsset();
+		
 		setContentView(telamapa);
 		try {
 			// Loading map
@@ -111,7 +114,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void loadAsset() {
-		image = (ImageView) findViewById(R.id.imageView2);
+		image = (ImageView) findViewById(R.id.imageView1);
 
 		try {
 			InputStream ims = getAssets().open("fundo_cinza_sobremapa.png");
@@ -121,7 +124,7 @@ public class MainActivity extends FragmentActivity {
 			return;
 		}
 
-		image = (ImageView) findViewById(R.id.imageView1);
+		image = (ImageView) findViewById(R.id.imageView2);
 
 		try {
 			InputStream ims = getAssets().open("marca_sobrefundo.png");
@@ -159,7 +162,7 @@ public class MainActivity extends FragmentActivity {
 	public void mostraAreas (Jogador jogador) {
 		int cor = jogador.getCor();
 		
-		cor = cor - 0x66000000;
+		cor = cor - 0xaa000000;
 		List<Area> listaAreas = jogador.getListaAreas();
 		if (listaAreas.isEmpty()) {
 			return;
