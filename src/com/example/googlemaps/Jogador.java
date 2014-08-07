@@ -9,7 +9,8 @@ public class Jogador {
 	//int do tipo 0xff223344
 	//ff é a transparencia. 22 red, 33 green, 44 blue
 	private int cor;
-	private double pontuacao;
+	private double pontuacaoRiscos;
+	private double pontuacaoAreas;
 	private int quantPontos;
 	private int quantAreas;
 	private List<Ponto> listaPontos = new ArrayList<Ponto>();
@@ -20,7 +21,8 @@ public class Jogador {
 	Jogador (String nome, int cor) {
 		this.nome = nome;
 		this.cor = cor;
-		pontuacao = 0;
+		pontuacaoRiscos = 0;
+		pontuacaoAreas = 0;
 		quantPontos = 0;
 	}
 	
@@ -38,14 +40,24 @@ public class Jogador {
 		return cor;
 	}
 	
-	public void setPontuacao (double pontuacao) {
-		this.pontuacao = pontuacao;
+	public void setPontuacaoRiscos (double pontuacao) {
+		this.pontuacaoRiscos = pontuacao;
 	}
-	public void adicionaPontuacao (double pontos) {
-		pontuacao = pontuacao + pontos;
+	public void adicionaPontuacaoRiscos (double pontos) {
+		pontuacaoRiscos = pontuacaoRiscos + pontos;
 	}
-	public double getPontuacao () {
-		return pontuacao;
+	public double getPontuacaoRiscos () {
+		return pontuacaoRiscos;
+	}
+	
+	public void setPontuacaoAreas (double pontuacao) {
+		this.pontuacaoAreas = pontuacao;
+	}
+	public void adicionaPontuacaoAreas (double pontos) {
+		pontuacaoAreas = pontuacaoAreas + pontos;
+	}
+	public double getPontuacaoAreas () {
+		return pontuacaoAreas;
 	}
 	
 	public void setListaPontos (List<Ponto> listaPontos) {
@@ -54,7 +66,7 @@ public class Jogador {
 	public void adicionaPonto (Ponto ponto) {
 		
 		if (listaPontos.size()>0) {
-			adicionaPontuacao (ponto.distancia(listaPontos.get(listaPontos.size()-1)));
+			adicionaPontuacaoRiscos (ponto.distancia(listaPontos.get(listaPontos.size()-1)));
 		}
 		
 		listaPontos.add(ponto);

@@ -265,9 +265,14 @@ public class MainActivity extends FragmentActivity {
 			for (i=0;i<jogador2.getQuantPontos()-1;i++) {
 				if (checarInterseccaoReta(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
 					distvelho = listaPontos.get(i).distancia(listaPontos.get(i+1));
+					//soma = dist1+ dist2;
+					//rand = rand (0 ~ soma);
+					//if (rand < dist1)
+					//	dist2 ganha.
 					if (distancia < distvelho) {
 						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
 						//destroi(jogador2, listaPontos.get(i+1));
+						//TODO avisar jogador q perdeu
 					}
 					else {
 						Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
