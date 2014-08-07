@@ -3,6 +3,7 @@ package com.example.googlemaps;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Random;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,11 +17,9 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends FragmentActivity {
@@ -264,15 +263,16 @@ public class MainActivity extends FragmentActivity {
 			List<Ponto> listaPontos = jogador2.getListaPontos();
 			for (i=0;i<jogador2.getQuantPontos()-1;i++) {
 				if (checarInterseccaoReta(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
+					Random rand = new Random(System.currentTimeMillis());
+					double numAleatorio = rand.nextDouble();
+					
 					distvelho = listaPontos.get(i).distancia(listaPontos.get(i+1));
-					//soma = dist1+ dist2;
-					//rand = rand (0 ~ soma);
-					//if (rand < dist1)
-					//	dist2 ganha.
-					if (distancia < distvelho) {
+					
+					numAleatorio = numAleatorio * (distancia + distvelho);
+					if (numAleatorio < distvelho) {
 						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
 						//destroi(jogador2, listaPontos.get(i+1));
-						//TODO avisar jogador q perdeu
+						//TODO avisar jogador2 q perdeu
 					}
 					else {
 						Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
