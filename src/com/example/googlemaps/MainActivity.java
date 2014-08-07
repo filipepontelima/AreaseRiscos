@@ -109,8 +109,7 @@ public class MainActivity extends FragmentActivity {
 		googleMap.animateCamera(CameraUpdateFactory
 				.newCameraPosition(cameraPosition));
 		
-		mostraRiscos(jogador2);
-		mostraAreas (jogador2);
+		atualizaMapa();
 	}
 
 	public void loadAsset() {
@@ -148,6 +147,24 @@ public class MainActivity extends FragmentActivity {
 	 * 
 	 * Toast.makeText(this, "You clicked me!", Toast.LENGTH_SHORT).show(); }
 	 */
+	
+	
+	public void atualizaMapa () {
+		
+		googleMap.clear();
+		
+		/* TODO pegar lista de jogadores do servidor
+		for (Jogador jogador : listaJogadores) {
+			mostraRiscos(jogador);
+			mostraAreas(jogador);
+		}*/
+		
+		mostraRiscos(jogador2);
+		mostraAreas(jogador2);
+		mostraRiscos(jogador);
+		mostraAreas(jogador);
+		
+	}
 	
 	public void mostraArea (Area area, int cor) {
 		
@@ -216,12 +233,7 @@ public class MainActivity extends FragmentActivity {
 		
 		jogador.adicionaArea(area);
 		
-		googleMap.clear();
-		
-		mostraRiscos(jogador2);
-		mostraAreas(jogador2);
-		mostraRiscos(jogador);
-		mostraAreas(jogador);
+		atualizaMapa();
 	}
 
 	public void novoPonto(View view) {
@@ -238,14 +250,9 @@ public class MainActivity extends FragmentActivity {
 			checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
 		}
 		
-		googleMap.clear();
+		atualizaMapa();
 
 		//Toast.makeText(this, "Novo ponto criado! Sua pontuacao:" + jogador.getPontuacao(),Toast.LENGTH_SHORT).show();
-
-		mostraRiscos(jogador2);
-		mostraAreas(jogador2);
-		mostraRiscos(jogador);
-		mostraAreas(jogador);
 	}
 	
 	public void checaColisoes (Ponto novo1, Ponto novo2) {
@@ -256,7 +263,7 @@ public class MainActivity extends FragmentActivity {
 			int i = 0;
 			List<Ponto> listaPontos = jogador2.getListaPontos();
 			for (i=0;i<jogador2.getQuantPontos()-1;i++) {
-				if (checarInterseccao(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
+				if (checarInterseccaoReta(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
 					distvelho = listaPontos.get(i).distancia(listaPontos.get(i+1));
 					if (distancia < distvelho) {
 						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
@@ -272,7 +279,7 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	
-	public boolean checarInterseccao(Ponto novo1, Ponto novo2, Ponto velho1, Ponto velho2){	
+	public boolean checarInterseccaoReta(Ponto novo1, Ponto novo2, Ponto velho1, Ponto velho2){	
 		/*if(determinante(novo1, novo2, velho1, velho2) == 0.0) {
 			return false; //nao ha interseccao
 		}
