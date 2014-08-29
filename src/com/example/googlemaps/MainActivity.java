@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
+import org.unbiquitous.network.http.connection.ClientMode;
+import org.unbiquitous.uos.core.UOS;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -67,6 +70,14 @@ public class MainActivity extends FragmentActivity {
 		// setContentView(R.layout.tela_inicial);
 		// setContentView(R.layout.activity_main);
 		loadAsset();
+		
+		
+		
+		//settar cliente
+		/*UOS uos = new UOS();
+	    ClientMode.Properties props = new ClientMode.Properties();
+	    props.setServer("www.my.server.net");
+	    uos.start(props);*/
 
 		// inicializaMapa();
 
@@ -271,12 +282,12 @@ public class MainActivity extends FragmentActivity {
 					numAleatorio = numAleatorio * (distancia + distvelho);
 					if (numAleatorio < distvelho) {
 						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
-						//destroi(jogador2, listaPontos.get(i+1));
+						destroi(jogador2, listaPontos.get(i+1));
 						//TODO avisar jogador2 q perdeu
 					}
 					else {
 						Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
-						//destroi(jogador, novo2);
+						destroi(jogador, novo2);
 					}
 				}
 			}
