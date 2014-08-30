@@ -5,7 +5,7 @@ public class Ponto {
 	
 	
 	//construtor de ponto
-	Ponto (double y, double x){
+	public Ponto (double y, double x){
 		this.latitude = y;
 		this.longitude = x;
 	}

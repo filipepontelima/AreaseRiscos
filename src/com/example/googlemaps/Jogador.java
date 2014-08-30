@@ -3,6 +3,8 @@ package com.example.googlemaps;
 import java.util.ArrayList;
 import java.util.List;
 
+import servidor.Area;
+
 public class Jogador {
 	
 	String nome;
@@ -18,7 +20,7 @@ public class Jogador {
 	
 	
 	//construtor
-	Jogador (String nome, int cor) {
+	public Jogador (String nome, int cor) {
 		this.nome = nome;
 		this.cor = cor;
 		pontuacaoRiscos = 0;

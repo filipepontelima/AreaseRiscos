@@ -5,9 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
-import org.unbiquitous.network.http.connection.ClientMode;
-import org.unbiquitous.uos.core.UOS;
-
+import servidor.Area;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +22,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+//import android.R;
 
 public class MainActivity extends FragmentActivity {
 
@@ -41,14 +40,16 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
+		
 
 		LayoutInflater inflater = LayoutInflater.from(this);
 		setContentView(R.layout.tela_inicial);
 		telainicial = (RelativeLayout) this.findViewById(R.id.main);
 		telamapa = (RelativeLayout) inflater.inflate(R.layout.activity_main,
 				null);
-		
+
 		jogador = new Jogador ("Filipe", 0xfffaa648);
 		jogador2 = new Jogador ("David", 0xff53b7d3);
 			Ponto ponto = new Ponto(-15.75, -47.88);
@@ -66,11 +67,10 @@ public class MainActivity extends FragmentActivity {
 			jogador2.adicionaArea(area);
 			area = new Area (-15.76, -47.877);
 			jogador2.adicionaArea(area);
-			
+
 		// setContentView(R.layout.tela_inicial);
 		// setContentView(R.layout.activity_main);
 		loadAsset();
-		
 		
 		
 		//settar cliente
@@ -79,7 +79,7 @@ public class MainActivity extends FragmentActivity {
 	    props.setServer("www.my.server.net");
 	    uos.start(props);*/
 
-		// inicializaMapa();
+		//inicializaMapa();
 
 	}
 
