@@ -254,6 +254,8 @@ public class MainActivity extends FragmentActivity {
 
 		Ponto ponto = new Ponto(latitude, longitude);
 		
+		
+		//Fazer o call para o servidor a partir daqui
 		jogador.adicionaPonto(ponto);
 		
 		if (jogador.getQuantPontos()>1) {
@@ -417,10 +419,12 @@ public class MainActivity extends FragmentActivity {
 		
 		if (listaPontos.indexOf(ponto) == jogador.getQuantPontos()-1) {
 			listaPontos.remove(ponto);
+			jogador.decrementaQuantPontos();
 			return;
 		}
 		if (listaPontos.indexOf(ponto) == 1) {
 			listaPontos.remove(0);
+			jogador.decrementaQuantPontos();
 			return;
 		}
 	}

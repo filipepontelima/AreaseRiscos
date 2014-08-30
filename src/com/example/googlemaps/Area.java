@@ -40,4 +40,14 @@ public class Area {
 	public void setRaio (double raio) {
 		this.raio = raio;
 	}
+	public void aumentaRaio (double aumenta) {
+		raio = raio + aumenta;
+	}
+	public void diminuiRaio (double diminui) {
+		if (raio > diminui) {
+			raio = raio - diminui;
+		} else {
+			//TODO exclui Area
+		}
+	}
 }
