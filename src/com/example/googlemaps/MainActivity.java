@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import servidor.Area;
+import servidor.Jogador;
+import servidor.Ponto;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -256,15 +258,19 @@ public class MainActivity extends FragmentActivity {
 		
 		
 		//Fazer o call para o servidor a partir daqui
-		jogador.adicionaPonto(ponto);
-		
 		if (jogador.getQuantPontos()>1) {
-			checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
+			if (ponto.distancia(jogador.getUltimoPonto()) < 0.001) {
+				Toast.makeText(this, "Não pode criar um ponto muito próximo do anterior!",Toast.LENGTH_SHORT).show();
+			} else {
+				jogador.adicionaPonto(ponto);
+				checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
+				Toast.makeText(this, "Sua pontuacao:" + jogador.getPontuacaoRiscos(),Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			jogador.adicionaPonto(ponto);
 		}
 		
 		atualizaMapa();
-
-		//Toast.makeText(this, "Novo ponto criado! Sua pontuacao:" + jogador.getPontuacao(),Toast.LENGTH_SHORT).show();
 	}
 	
 	public void checaColisoes (Ponto novo1, Ponto novo2) {
@@ -317,7 +323,7 @@ public class MainActivity extends FragmentActivity {
 	
 	public boolean checarInterseccaoReta(Ponto novo1, Ponto novo2, Ponto velho1, Ponto velho2){	
 		
-		double result, a, b;
+		double a, b;
 		
 		//Teste do envelope
 		if (max(novo1.getLatitude(),novo2.getLatitude()) < min(velho1.getLatitude(),velho2.getLatitude())) {
