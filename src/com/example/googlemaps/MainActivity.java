@@ -236,38 +236,48 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public void novaArea (View view) {
-		GPSTracker gps = new GPSTracker(this);
-
-		double latitude = gps.getLatitude();
-		double longitude = gps.getLongitude();
 		
-		Area area = new Area (latitude, longitude);
-		
-		jogador.adicionaArea(area);
+		if (jogador.atingiuMaxAreas()) {
+			Toast.makeText(this, "Você já usou todas suas areas",Toast.LENGTH_SHORT).show();
+		} else {
+			GPSTracker gps = new GPSTracker(this);
+	
+			double latitude = gps.getLatitude();
+			double longitude = gps.getLongitude();
+			
+			Area area = new Area (latitude, longitude);
+			
+			jogador.adicionaArea(area);
+		}
 		
 		atualizaMapa();
 	}
 
 	public void novoPonto(View view) {
-		GPSTracker gps = new GPSTracker(this);
-
-		double latitude = gps.getLatitude();
-		double longitude = gps.getLongitude();
-
-		Ponto ponto = new Ponto(latitude, longitude);
 		
-		
-		//Fazer o call para o servidor a partir daqui
-		if (jogador.getQuantPontos()>1) {
-			if (ponto.distancia(jogador.getUltimoPonto()) < 0.001) {
-				Toast.makeText(this, "Não pode criar um ponto muito próximo do anterior!",Toast.LENGTH_SHORT).show();
+		if (jogador.atingiuMaxPontos()) {
+			Toast.makeText(this, "Você já usou todos seus pontos",Toast.LENGTH_SHORT).show();
+		} else {
+			GPSTracker gps = new GPSTracker(this);
+	
+			double latitude = gps.getLatitude();
+			double longitude = gps.getLongitude();
+	
+			Ponto ponto = new Ponto(latitude, longitude);
+			
+			
+			//Fazer o call para o servidor a partir daqui
+			if (jogador.getQuantPontos()>=1) {
+				if (ponto.distancia(jogador.getUltimoPonto()) < 0.001) {
+					Toast.makeText(this, "Não pode criar um ponto muito próximo do anterior!",Toast.LENGTH_SHORT).show();
+				} else {
+					jogador.adicionaPonto(ponto);
+					checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
+					Toast.makeText(this, "Sua pontuacao:" + jogador.getPontuacaoRiscos(),Toast.LENGTH_SHORT).show();
+				}
 			} else {
 				jogador.adicionaPonto(ponto);
-				checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
-				Toast.makeText(this, "Sua pontuacao:" + jogador.getPontuacaoRiscos(),Toast.LENGTH_SHORT).show();
 			}
-		} else {
-			jogador.adicionaPonto(ponto);
 		}
 		
 		atualizaMapa();
