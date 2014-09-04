@@ -294,6 +294,7 @@ public class MainActivity extends FragmentActivity {
 	public void checaColisoes (Ponto novo1, Ponto novo2) {
 		double distancia = novo1.distancia(novo2);
 		double distvelho;
+		boolean perdeu = false;
 		//TODO acessar servidor, coletar lista de jogadores, para cada jogador checar interseccao de cada reta
 		if (jogador2.getQuantPontos()>1) {
 			int i = 0;
@@ -309,14 +310,19 @@ public class MainActivity extends FragmentActivity {
 					if (numAleatorio < distvelho) {
 						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
 						destroi(jogador2, listaPontos.get(i+1));
+						i=0;
 						//TODO avisar jogador2 q perdeu
 					}
 					else {
 						Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
-						destroi(jogador, novo2);
+						perdeu = true;
 					}
 				}
 			}
+		}
+		
+		if (perdeu == true) {
+			destroi(jogador, novo2);
 		}
 	}
 	
