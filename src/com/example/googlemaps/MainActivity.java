@@ -236,18 +236,24 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public void novaArea (View view) {
+
+		GPSTracker gps = new GPSTracker(this);
 		
-		if (jogador.atingiuMaxAreas()) {
-			Toast.makeText(this, "Você já usou todas suas areas",Toast.LENGTH_SHORT).show();
+		double latitude = gps.getLatitude();
+		double longitude = gps.getLongitude();
+		Area areaExistente;
+
+		//mudar para if esta dentro de uma de suas areas
+		//dentro do if: areaExistente = 
+		if (false) {
+			//area.aumentaRaio(50)
 		} else {
-			GPSTracker gps = new GPSTracker(this);
-	
-			double latitude = gps.getLatitude();
-			double longitude = gps.getLongitude();
-			
-			Area area = new Area (latitude, longitude);
-			
-			jogador.adicionaArea(area);
+			if (jogador.atingiuMaxAreas()) {
+				Toast.makeText(this, "Você já usou todas suas areas",Toast.LENGTH_SHORT).show();
+			} else {
+				Area area = new Area (latitude, longitude);
+				jogador.adicionaArea(area);
+			}
 		}
 		
 		atualizaMapa();
@@ -432,6 +438,8 @@ public class MainActivity extends FragmentActivity {
 	
 	public void destroi(Jogador jogador, Ponto ponto) {
 		List<Ponto> listaPontos = jogador.getListaPontos();
+		double distancia1, distancia2;
+		int i, index;
 		
 		if (listaPontos.indexOf(ponto) == jogador.getQuantPontos()-1) {
 			listaPontos.remove(ponto);
@@ -443,6 +451,32 @@ public class MainActivity extends FragmentActivity {
 			jogador.decrementaQuantPontos();
 			return;
 		}
+		
+		distancia1=0;
+		distancia2=0;
+		
+		for (i=0; i < listaPontos.indexOf(ponto)-1; i++) {
+			distancia1 = distancia1 + listaPontos.get(i).distancia(listaPontos.get(i+1));
+		}
+		
+		for (i=listaPontos.indexOf(ponto); i < jogador.getQuantPontos()-1; i++) {
+			distancia2 = distancia2 + listaPontos.get(i).distancia(listaPontos.get(i+1));
+		}
+		
+		index = listaPontos.indexOf(ponto);
+		if (distancia1 > distancia2) {
+			while (jogador.getQuantPontos() > index) {
+				//remove ultimo da lista
+				listaPontos.remove(jogador.getQuantPontos()-1);
+				jogador.decrementaQuantPontos();
+			}
+		} else {
+			while (listaPontos.get(0) != ponto) {
+				listaPontos.remove(0);
+				jogador.decrementaQuantPontos();
+			}
+		}
+		
 	}
 	
 
