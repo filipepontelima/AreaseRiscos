@@ -241,12 +241,14 @@ public class MainActivity extends FragmentActivity {
 		
 		double latitude = gps.getLatitude();
 		double longitude = gps.getLongitude();
-		Area areaExistente;
-
+		int indexArea;
+		
 		//mudar para if esta dentro de uma de suas areas
-		//dentro do if: areaExistente = 
-		if (false) {
-			//area.aumentaRaio(50)
+		//dentro do if: areaExistente =
+		Ponto ponto = new Ponto(latitude, longitude);
+		indexArea = jogador.contidoEmAlgumaArea(ponto);
+		if (indexArea >=0) {
+			jogador.getListaAreas().get(indexArea).aumentaRaio(50);
 		} else {
 			if (jogador.atingiuMaxAreas()) {
 				Toast.makeText(this, "Você já usou todas suas areas",Toast.LENGTH_SHORT).show();
