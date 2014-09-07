@@ -176,6 +176,19 @@ public class MainActivity extends FragmentActivity {
 		mostraRiscos(jogador);
 		mostraAreas(jogador);
 		
+		
+		//calcula e mostra pontuacao das areas;
+		
+		double pontuacao = 0;
+		int i, j;
+		
+		for (i=0; i<jogador.getQuantAreas(); i++) {
+			for (j=0; j<jogador2.getQuantAreas(); j++) {
+				pontuacao = pontuacao + jogador.getListaAreas().get(i).interseccaoArea(jogador2.getListaAreas().get(j));
+			}
+		}
+		
+		Toast.makeText(this, "Pontuacao das Areas:" + pontuacao,Toast.LENGTH_SHORT).show();
 	}
 	
 	public void mostraArea (Area area, int cor) {
