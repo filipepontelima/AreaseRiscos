@@ -179,16 +179,6 @@ public class MainActivity extends FragmentActivity {
 		
 		//calcula e mostra pontuacao das areas;
 		
-		double pontuacao = 0;
-		int i, j;
-		
-		for (i=0; i<jogador.getQuantAreas(); i++) {
-			for (j=0; j<jogador2.getQuantAreas(); j++) {
-				pontuacao = pontuacao + jogador.getListaAreas().get(i).interseccaoArea(jogador2.getListaAreas().get(j));
-			}
-		}
-		
-		Toast.makeText(this, "Pontuacao das Areas:" + pontuacao,Toast.LENGTH_SHORT).show();
 	}
 	
 	public void mostraArea (Area area, int cor) {
@@ -255,6 +245,7 @@ public class MainActivity extends FragmentActivity {
 		double latitude = gps.getLatitude();
 		double longitude = gps.getLongitude();
 		int indexArea;
+		double pontuacao = 0;
 		
 		//mudar para if esta dentro de uma de suas areas
 		//dentro do if: areaExistente =
@@ -268,8 +259,27 @@ public class MainActivity extends FragmentActivity {
 			} else {
 				Area area = new Area (latitude, longitude);
 				jogador.adicionaArea(area);
+				
+				//pontuacao = area.interseccaoArea(jogador2.getListaAreas().get(0)) ;
+				//Toast.makeText(this, "Pontuacao das Areas:" + pontuacao,Toast.LENGTH_SHORT).show();
 			}
 		}
+		
+		
+		
+
+		
+		//int i, j;
+		
+		/*for (i=0; i<jogador.getQuantAreas(); i++) {
+			for (j=0; j<jogador2.getQuantAreas(); j++) {
+				pontuacao = pontuacao + jogador.getListaAreas().get(i).interseccaoArea(jogador2.getListaAreas().get(j));
+			}
+		}*/
+		 
+		//jogador.setPontuacaoAreas (pontuacao);
+		
+		
 		
 		atualizaMapa();
 	}
