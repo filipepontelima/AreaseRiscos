@@ -5,6 +5,14 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
+import org.unbiquitous.network.http.connection.ClientMode;
+import org.unbiquitous.uos.core.UOS;
+import org.unbiquitous.uos.core.adaptabitilyEngine.Gateway;
+import org.unbiquitous.uos.core.messageEngine.dataType.UpDriver;
+import org.unbiquitous.uos.core.messageEngine.messages.Call;
+import org.unbiquitous.uos.core.messageEngine.messages.Response;
+
+import servidor.AERDrivevr;
 import servidor.Area;
 import servidor.Jogador;
 import servidor.Ponto;
@@ -36,6 +44,9 @@ public class MainActivity extends FragmentActivity {
 
 	// Jogadores
 	Jogador jogador, jogador2;
+	
+	private Gateway gateway;
+	UpDriver driver = new UpDriver("cliente");
 
 	private RelativeLayout telainicial;
 	private RelativeLayout telamapa;
@@ -44,7 +55,12 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		
+
+		//settar cliente
+		/*UOS uos = new UOS();
+	    ClientMode.Properties props = new ClientMode.Properties();
+	    props.setServer("www.my.server.net");
+	    uos.start(props);*/
 
 		LayoutInflater inflater = LayoutInflater.from(this);
 		setContentView(R.layout.tela_inicial);
@@ -70,16 +86,21 @@ public class MainActivity extends FragmentActivity {
 			area = new Area (-15.76, -47.877);
 			jogador2.adicionaArea(area);
 
+			/*
+			Call novoJogador = new Call("uos.aerdriver","adicionarJogador");
+			novoJogador.addParameter("jogador", jogador2);
+			Response r = gateway.callService(driver.getDevice(), novoJogador);
+			String result = r.getResponseString("result");
+			if(result == "win"){
+				// parabeniza jogador
+			}*/
+			
 		// setContentView(R.layout.tela_inicial);
 		// setContentView(R.layout.activity_main);
 		loadAsset();
 		
 		
-		//settar cliente
-		/*UOS uos = new UOS();
-	    ClientMode.Properties props = new ClientMode.Properties();
-	    props.setServer("www.my.server.net");
-	    uos.start(props);*/
+		
 
 		//inicializaMapa();
 
