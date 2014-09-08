@@ -5,14 +5,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
-import org.unbiquitous.network.http.connection.ClientMode;
-import org.unbiquitous.uos.core.UOS;
 import org.unbiquitous.uos.core.adaptabitilyEngine.Gateway;
 import org.unbiquitous.uos.core.messageEngine.dataType.UpDriver;
-import org.unbiquitous.uos.core.messageEngine.messages.Call;
-import org.unbiquitous.uos.core.messageEngine.messages.Response;
 
-import servidor.AERDrivevr;
 import servidor.Area;
 import servidor.Jogador;
 import servidor.Ponto;
@@ -22,7 +17,9 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,6 +46,7 @@ public class MainActivity extends FragmentActivity {
 	UpDriver driver = new UpDriver("cliente");
 
 	private RelativeLayout telainicial;
+	private LinearLayout fimdejogo;
 	private RelativeLayout telamapa;
 
 	@Override
@@ -65,8 +63,8 @@ public class MainActivity extends FragmentActivity {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		setContentView(R.layout.tela_inicial);
 		telainicial = (RelativeLayout) this.findViewById(R.id.main);
-		telamapa = (RelativeLayout) inflater.inflate(R.layout.activity_main,
-				null);
+		telamapa = (RelativeLayout) inflater.inflate(R.layout.activity_main,null);
+		fimdejogo = (LinearLayout) inflater.inflate(R.layout.fim_de_jogo,null);
 
 		jogador = new Jogador ("Filipe", 0xfffaa648);
 		jogador2 = new Jogador ("David", 0xff53b7d3);
@@ -143,6 +141,38 @@ public class MainActivity extends FragmentActivity {
 				.newCameraPosition(cameraPosition));
 		
 		atualizaMapa();
+	}
+	
+
+	public void fimDeJogo(View view) {
+		TextView placarNomes, placarPontos;
+		String pontuacao;
+		//loadAsset();
+		
+		setContentView(fimdejogo);
+		//para cada jogador (Riscos)
+		
+		placarNomes = (TextView)findViewById(R.id.placarNomes);
+		placarNomes.append(jogador.getNome() + "\n");
+		placarNomes.append(jogador2.getNome() + "\n");
+		
+		placarPontos = (TextView)findViewById(R.id.placarPontos);
+		pontuacao = String.format("%.0f", jogador.getPontuacaoRiscos());
+		placarPontos.append(pontuacao + "\n");
+		pontuacao = String.format("%.0f", jogador2.getPontuacaoRiscos());
+		placarPontos.append(pontuacao + "\n");
+		
+		
+		placarNomes.append("\n\nÁreas:\n\nJogadores\n");
+		placarNomes.append(jogador.getNome() + "\n");
+		placarNomes.append(jogador2.getNome() + "\n");
+		
+		placarPontos.append("\n\n\n\nÁreas de Interseção\n");
+		pontuacao = String.format("%.0f", jogador.getPontuacaoAreas());
+		placarPontos.append(pontuacao + "\n");
+		pontuacao = String.format("%.0f", jogador2.getPontuacaoAreas());
+		placarPontos.append(pontuacao + "\n");
+		
 	}
 
 	public void loadAsset() {
@@ -354,6 +384,7 @@ public class MainActivity extends FragmentActivity {
 					if (numAleatorio < distvelho) {
 						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
 						destroi(jogador2, listaPontos.get(i+1));
+						jogador2.atualizaPontuacaoRiscos();
 						i=0;
 						//TODO avisar jogador2 q perdeu
 					}
@@ -367,6 +398,7 @@ public class MainActivity extends FragmentActivity {
 		
 		if (perdeu == true) {
 			destroi(jogador, novo2);
+			jogador.atualizaPontuacaoRiscos();
 		}
 	}
 	
