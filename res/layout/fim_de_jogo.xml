@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="150dp"
-        android:text="\nRiscos:\n\nJogadores\n" />
+        android:layout_marginTop="150dp" />
         
     <TextView
         android:id="@+id/placarPontos"
@@ -22,7 +21,16 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginTop="150dp"
-        android:text="\n\n\nMetros Percorridos\n" />
+        android:layout_marginTop="150dp" />
+    
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:text="Novo Jogo"
+        android:onClick="novoJogo" />
  
 </LinearLayout>
