@@ -299,6 +299,18 @@ public class MainActivity extends FragmentActivity {
 		mostraAreas(jogador);*/
 		
 		
+		
+//		MOSTRA AREAS E RISCOS DE TODOS OS JOGADORES
+//		Call getJogadores = new Call("uos.aerdriver","getJogadores");
+//		Response r = gateway.callService(target, getJogadores);
+//		Set<Jogador> jogadores = r.getResponseString("result"); 
+//		for(Jogador j : jogadores){
+//			mostraRiscos(j);
+//			mostraAreas(j);
+//		}
+		
+		
+		
 		//calcula e mostra pontuacao das areas;
 		
 	}
@@ -394,6 +406,20 @@ public class MainActivity extends FragmentActivity {
 		
 		
 		
+		//CHAMADA PARA O SERVIDOR CRIAR A AREA
+//		Call marcarArea = new Call("uos.aerdriver","marcarArea");
+//		marcarArea.addParameter("longitude", longitude);
+//		marcarArea.addParameter("latitude", latitude);
+//		Response r = gateway.callService(target, marcarArea);
+//		String result = r.getResponseString("result");
+//		if(result == "1"){
+//			//Toast.makeText(this, "ERRO 1: jogador inexistente",Toast.LENGTH_SHORT).show();
+//		}
+//		if(result == "2"){
+//		//Toast.makeText(this, "ERRO 2: limite de areas alcancado",Toast.LENGTH_SHORT).show();
+//		}	
+		
+		
 
 		
 		//int i, j;
@@ -437,6 +463,21 @@ public class MainActivity extends FragmentActivity {
 				jogador.adicionaPonto(ponto);
 			}
 		}
+		
+		
+		//CHAMADA PARA O SERVIDOR CRIAR O PONTO
+//		Call marcarPonto = new Call("uos.aerdriver","marcarPonto");
+//		marcarPonto.addParameter("ponto", ponto);
+//		Response r = gateway.callService(target, marcarPonto);
+//		String result = r.getResponseString("result");
+//		if(result == "1"){
+//			//Toast.makeText(this, "ERRO 1: jogador inexistente",Toast.LENGTH_SHORT).show();
+//		}
+//		if(result == "2"){
+//		//Toast.makeText(this, "ERRO 2: ponto muito proximo ao ultimo marcado",Toast.LENGTH_SHORT).show();
+//		}	
+
+		
 		
 		atualizaMapa();
 	}
