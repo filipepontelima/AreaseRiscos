@@ -2,20 +2,27 @@ package com.example.googlemaps;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.unbiquitous.network.http.connection.ClientMode;
+import org.unbiquitous.uos.core.UOS;
 import org.unbiquitous.uos.core.adaptabitilyEngine.Gateway;
+import org.unbiquitous.uos.core.messageEngine.dataType.UpDevice;
 import org.unbiquitous.uos.core.messageEngine.dataType.UpDriver;
 
 import servidor.Area;
 import servidor.Jogador;
 import servidor.Ponto;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,7 +39,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 //import android.R;
 
 public class MainActivity extends FragmentActivity {
-
+	
+	
+	
 	// Google Map
 	private GoogleMap googleMap;
 
@@ -40,9 +49,11 @@ public class MainActivity extends FragmentActivity {
 	ImageView image;
 
 	// Jogadores
+	List<Jogador> listaJogadores = new ArrayList<Jogador>();
 	Jogador jogador, jogador2;
 	
 	private Gateway gateway;
+	UOS uos = new UOS();
 	UpDriver driver = new UpDriver("cliente");
 
 	private RelativeLayout telainicial;
@@ -52,14 +63,27 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
+		//retira o titulo de cima
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE); // (NEW)
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		super.onCreate(savedInstanceState);
+		AsyncTask midlewareTask = new AsyncTask(){
 
-		//settar cliente
-		/*UOS uos = new UOS();
-	    ClientMode.Properties props = new ClientMode.Properties();
-	    props.setServer("164.41.209.50");
-	    uos.start(props);*/
+			@Override
+			protected Object doInBackground(Object... arg0) {
+				// TODO Auto-generated method stub
+				//settar cliente
+				
+			    ClientMode.Properties props = new ClientMode.Properties();
+			    props.setServer("192.168.0.38");
+			    uos.start(props);
 
+				return null;
+			}};
+			
+		midlewareTask.execute(null, null, null);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		setContentView(R.layout.tela_inicial);
 		telainicial = (RelativeLayout) this.findViewById(R.id.main);
@@ -83,18 +107,19 @@ public class MainActivity extends FragmentActivity {
 			jogador2.adicionaArea(area);
 			area = new Area (-15.76, -47.877);
 			jogador2.adicionaArea(area);
-			
-			/*List<UpDevice> listaDevices;
-			listaDevices = gateway.listDevices();*/
-			
-			/*
-			Call novoJogador = new Call("uos.aerdriver","adicionarJogador");
-			novoJogador.addParameter("jogador", jogador2);
-			Response r = gateway.callService(driver.getDevice(), novoJogador);
-			String result = r.getResponseString("result");
-			if(result == "win"){
-				// parabeniza jogador
-			}*/
+		
+		gateway = uos.getGateway();
+		List<UpDevice> listaDevices;
+		listaDevices = gateway.listDevices();
+		int quant = listaDevices.size();
+		
+		/*Call novoJogador = new Call("uos.aerdriver","adicionarJogador");
+		novoJogador.addParameter("jogador", jogador2);
+		Response r = gateway.callService(driver.getDevice(), novoJogador);
+		String result = r.getResponseString("result");
+		if(result == "win"){
+			// parabeniza jogador
+		}*/
 			
 		// setContentView(R.layout.tela_inicial);
 		// setContentView(R.layout.activity_main);
@@ -111,7 +136,11 @@ public class MainActivity extends FragmentActivity {
 		
 		//loadAsset();
 		jogador = new Jogador ("Filipe", 0xfffaa648);
+		listaJogadores.add(jogador);
+		listaJogadores.add(jogador2);
+		
 		setContentView(telamapa);
+		
 		try {
 			// Loading map
 			initilizeMap();
@@ -155,10 +184,15 @@ public class MainActivity extends FragmentActivity {
 		double pontuacaoAreas = 0;
 		
 		for (i=0;i < jogador.getQuantAreas(); i++) {
-			for (j=0; j<jogador2.getQuantAreas(); j++) {
-				pontuacaoAreas += jogador.getListaAreas().get(i).interseccaoArea(jogador2.getListaAreas().get(j));
+			for(Jogador jog : listaJogadores){
+				if (jog != jogador) {
+					for (j=0; j<jog.getQuantAreas(); j++) {
+						pontuacaoAreas += jogador.getListaAreas().get(i).interseccaoArea(jog.getListaAreas().get(j));
+					}
+				}
 			}
 		}
+		//TODO corrigir esta parte
 		jogador.setPontuacaoAreas(pontuacaoAreas);
 		jogador2.setPontuacaoAreas(pontuacaoAreas);
 		
@@ -170,17 +204,22 @@ public class MainActivity extends FragmentActivity {
 		
 		placarNomes = (TextView)findViewById(R.id.placarNomes);
 		placarNomes.setText("\nRiscos:\n\nJogadores\n");
-		placarNomes.append(jogador.getNome() + "\n");
-		placarNomes.append(jogador2.getNome() + "\n");
+		for (Jogador jog : listaJogadores) {
+			placarNomes.append(jog.getNome() + "\n");
+		}
+		//placarNomes.append(jogador2.getNome() + "\n");
 		
 		placarPontos = (TextView)findViewById(R.id.placarPontos);
 		placarPontos.setText("\n\n\nMetros\n");
-		pontuacao = String.format("%.0f", jogador.getPontuacaoRiscos());
-		placarPontos.append(pontuacao + "\n");
-		pontuacao = String.format("%.0f", jogador2.getPontuacaoRiscos());
-		placarPontos.append(pontuacao + "\n");
+		for (Jogador jog : listaJogadores) {
+			pontuacao = String.format("%.0f", jog.getPontuacaoRiscos());
+			placarPontos.append(pontuacao + "\n");
+		}
+		//pontuacao = String.format("%.0f", jogador2.getPontuacaoRiscos());
+		//placarPontos.append(pontuacao + "\n");
 		
 		
+<<<<<<< HEAD
 		placarNomes.append("\n\nÃ�reas:\n\nJogadores\n");
 		placarNomes.append(jogador.getNome() + "\n");
 		placarNomes.append(jogador2.getNome() + "\n");
@@ -190,11 +229,27 @@ public class MainActivity extends FragmentActivity {
 		placarPontos.append(pontuacao + "\n");
 		pontuacao = String.format("%.0f", jogador2.getPontuacaoAreas());
 		placarPontos.append(pontuacao + "\n");
+=======
+		placarNomes.append("\n\nÁreas:\n\nJogadores\n");
+		for (Jogador jog : listaJogadores) {
+			placarNomes.append(jog.getNome() + "\n");
+		}
+		//placarNomes.append(jogador2.getNome() + "\n");
+		
+		placarPontos.append("\n\n\n\nÁreas\n");
+		for (Jogador jog : listaJogadores) {
+			pontuacao = String.format("%.0f", jog.getPontuacaoAreas());
+			placarPontos.append(pontuacao + "\n");
+		}
+		//pontuacao = String.format("%.0f", jogador2.getPontuacaoAreas());
+		//placarPontos.append(pontuacao + "\n");
+>>>>>>> 2ba43e7f1f9ca611473fc8b33be00fced8a6bc0e
 		
 	}
 	
 	public void novoJogo(View view) {
 		//limpar variaveis
+		//TODO corrigir clean
 		jogador = null;
 		setContentView(telainicial);
 	}
@@ -246,10 +301,14 @@ public class MainActivity extends FragmentActivity {
 			mostraAreas(jogador);
 		}*/
 		
-		mostraRiscos(jogador2);
+		for(Jogador jog : listaJogadores){
+			mostraRiscos(jog);
+			mostraAreas(jog);
+		}
+		/*mostraRiscos(jogador2);
 		mostraAreas(jogador2);
 		mostraRiscos(jogador);
-		mostraAreas(jogador);
+		mostraAreas(jogador);*/
 		
 				
 		
@@ -288,7 +347,7 @@ public class MainActivity extends FragmentActivity {
 		CircleOptions viewPonto = new CircleOptions();
 		viewPonto.center(new LatLng(ponto.getLatitude(), ponto.getLongitude()));
 		viewPonto.radius(30);
-		viewPonto.fillColor(0x00000000);
+		viewPonto.fillColor(cor);
 		viewPonto.strokeColor(cor);
 		viewPonto.strokeWidth(4);
 		googleMap.addCircle(viewPonto);
@@ -296,10 +355,17 @@ public class MainActivity extends FragmentActivity {
 
 	public void mostraRiscos(Jogador jogador) {
 		
+		
+		
 		List<Ponto> listaPontos = jogador.getListaPontos();
 		if (listaPontos.isEmpty()) {
 			return;
 		}
+		
+		for (Ponto ponto : listaPontos) {
+			mostraPonto(ponto, jogador.getCor());
+		}
+		
 		PolylineOptions viewRiscos = new PolylineOptions();
 
 		for (Ponto ponto : listaPontos) {
@@ -310,9 +376,7 @@ public class MainActivity extends FragmentActivity {
 		viewRiscos.width(5);
 		googleMap.addPolyline(viewRiscos);
 		
-		for (Ponto ponto : listaPontos) {
-			mostraPonto(ponto, jogador.getCor());
-		}
+		
 	}
 		
 	
@@ -401,27 +465,31 @@ public class MainActivity extends FragmentActivity {
 		double distvelho;
 		boolean perdeu = false;
 		//TODO acessar servidor, coletar lista de jogadores, para cada jogador checar interseccao de cada reta
-		if (jogador2.getQuantPontos()>1) {
-			int i = 0;
-			List<Ponto> listaPontos = jogador2.getListaPontos();
-			for (i=0;i<jogador2.getQuantPontos()-1;i++) {
-				if (checarInterseccaoReta(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
-					Random rand = new Random(System.currentTimeMillis());
-					double numAleatorio = rand.nextDouble();
-					
-					distvelho = listaPontos.get(i).distancia(listaPontos.get(i+1));
-					
-					numAleatorio = numAleatorio * (distancia + distvelho);
-					if (numAleatorio < distvelho) {
-						Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
-						destroi(jogador2, listaPontos.get(i+1));
-						jogador2.atualizaPontuacaoRiscos();
-						i=-1;
-						//TODO avisar jogador2 q perdeu
-					}
-					else {
-						Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
-						perdeu = true;
+		for(Jogador jog : listaJogadores){
+			if (jog != jogador) {
+				if (jog.getQuantPontos()>1) {
+					int i = 0;
+					List<Ponto> listaPontos = jog.getListaPontos();
+					for (i=0;i<jog.getQuantPontos()-1;i++) {
+						if (checarInterseccaoReta(novo1, novo2, listaPontos.get(i), listaPontos.get(i+1))) {
+							Random rand = new Random(System.currentTimeMillis());
+							double numAleatorio = rand.nextDouble();
+							
+							distvelho = listaPontos.get(i).distancia(listaPontos.get(i+1));
+							
+							numAleatorio = numAleatorio * (distancia + distvelho);
+							if (numAleatorio < distvelho) {
+								Toast.makeText(this, "Ganhou a luta",Toast.LENGTH_SHORT).show();
+								destroi(jog, listaPontos.get(i+1));
+								jog.atualizaPontuacaoRiscos();
+								i=-1;
+								//TODO avisar jog q perdeu
+							}
+							else {
+								Toast.makeText(this, "Perdeu a luta",Toast.LENGTH_SHORT).show();
+								perdeu = true;
+							}
+						}
 					}
 				}
 			}
