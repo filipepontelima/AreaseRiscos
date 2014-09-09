@@ -181,11 +181,11 @@ public class MainActivity extends FragmentActivity {
 		placarPontos.append(pontuacao + "\n");
 		
 		
-		placarNomes.append("\n\nÁreas:\n\nJogadores\n");
+		placarNomes.append("\n\nÃ�reas:\n\nJogadores\n");
 		placarNomes.append(jogador.getNome() + "\n");
 		placarNomes.append(jogador2.getNome() + "\n");
 		
-		placarPontos.append("\n\n\n\nÁreas\n");
+		placarPontos.append("\n\n\n\nÃ�reas\n");
 		pontuacao = String.format("%.0f", jogador.getPontuacaoAreas());
 		placarPontos.append(pontuacao + "\n");
 		pontuacao = String.format("%.0f", jogador2.getPontuacaoAreas());
@@ -251,6 +251,7 @@ public class MainActivity extends FragmentActivity {
 		mostraRiscos(jogador);
 		mostraAreas(jogador);
 		
+				
 		
 		//calcula e mostra pontuacao das areas;
 		
@@ -280,7 +281,8 @@ public class MainActivity extends FragmentActivity {
 		}
 		
 	}
-
+	
+	
 	public void mostraPonto(Ponto ponto, int cor) {
 
 		CircleOptions viewPonto = new CircleOptions();
@@ -312,6 +314,7 @@ public class MainActivity extends FragmentActivity {
 			mostraPonto(ponto, jogador.getCor());
 		}
 	}
+		
 	
 	public void novaArea (View view) {
 
@@ -330,7 +333,7 @@ public class MainActivity extends FragmentActivity {
 			jogador.getListaAreas().get(indexArea).aumentaRaio(50);
 		} else {
 			if (jogador.atingiuMaxAreas()) {
-				Toast.makeText(this, "Você já usou todas suas areas",Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "VocÃª jÃ¡ usou todas suas areas",Toast.LENGTH_SHORT).show();
 			} else {
 				Area area = new Area (latitude, longitude);
 				jogador.adicionaArea(area);
@@ -362,7 +365,7 @@ public class MainActivity extends FragmentActivity {
 	public void novoPonto(View view) {
 		
 		if (jogador.atingiuMaxPontos()) {
-			Toast.makeText(this, "Você já usou todos seus pontos",Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "VocÃª jÃ¡ usou todos seus pontos",Toast.LENGTH_SHORT).show();
 		} else {
 			GPSTracker gps = new GPSTracker(this);
 	
@@ -375,7 +378,7 @@ public class MainActivity extends FragmentActivity {
 			//Fazer o call para o servidor a partir daqui
 			if (jogador.getQuantPontos()>=1) {
 				if (ponto.distancia(jogador.getUltimoPonto()) < 0.001) {
-					Toast.makeText(this, "Não pode criar um ponto muito próximo do anterior!",Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, "NÃ£o pode criar um ponto muito prÃ³ximo do anterior!",Toast.LENGTH_SHORT).show();
 				} else {
 					jogador.adicionaPonto(ponto);
 					checaColisoes(jogador.getListaPontos().get(jogador.getQuantPontos()-2), ponto);
@@ -385,6 +388,10 @@ public class MainActivity extends FragmentActivity {
 				jogador.adicionaPonto(ponto);
 			}
 		}
+		
+		
+		
+		
 		
 		atualizaMapa();
 	}
