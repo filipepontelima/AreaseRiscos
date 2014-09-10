@@ -312,7 +312,7 @@ public class MainActivity extends FragmentActivity {
 //		MOSTRA AREAS E RISCOS DE TODOS OS JOGADORES
 //		Call getJogadores = new Call("uos.aerdriver","getJogadores");
 //		Response r = gateway.callService(target, getJogadores);
-//		Set<Jogador> jogadores = r.getResponseString("result"); 
+//		Set<Jogador> jogadores = r.getResponseData("result"); 
 //		for(Jogador j : jogadores){
 //			mostraRiscos(j);
 //			mostraAreas(j);
