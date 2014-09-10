@@ -15,6 +15,7 @@ import org.unbiquitous.uos.core.messageEngine.dataType.UpDriver;
 import servidor.Area;
 import servidor.Jogador;
 import servidor.Ponto;
+import android.bluetooth.BluetoothClass.Device;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -112,6 +113,14 @@ public class MainActivity extends FragmentActivity {
 		List<UpDevice> listaDevices;
 		listaDevices = gateway.listDevices();
 		int quant = listaDevices.size();
+		
+		//loop pra pegar o servidor
+		UpDevice device;
+		for(int i=0; i<quant; i++){
+			if(listaDevices.get(i) != gateway.getCurrentDevice()){
+				device = listaDevices.get(i);
+			}
+		}
 		
 		/*Call novoJogador = new Call("uos.aerdriver","adicionarJogador");
 		novoJogador.addParameter("jogador", jogador2);
