@@ -78,6 +78,7 @@ public class MainActivity extends FragmentActivity {
 				//settar cliente
 				
 			    ClientMode.Properties props = new ClientMode.Properties();
+				//InitialProperties props = new MulticastRadar.Properties();
 			    props.setServer("192.168.0.38");
 			    uos.start(props);
 
@@ -114,11 +115,15 @@ public class MainActivity extends FragmentActivity {
 		listaDevices = gateway.listDevices();
 		int quant = listaDevices.size();
 		
+		//Toast.makeText(this, "Começou!", Toast.LENGTH_SHORT).show(); 
+		
+		
 		//loop pra pegar o servidor
 		UpDevice device;
 		for(int i=0; i<quant; i++){
 			if(listaDevices.get(i) != gateway.getCurrentDevice()){
 				device = listaDevices.get(i);
+				Toast.makeText(this, "device settado", Toast.LENGTH_SHORT).show();
 			}
 		}
 		
